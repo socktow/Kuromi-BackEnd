@@ -1,0 +1,8 @@
+{
+    "name": "test",
+    "id": 22,
+    "old_price": 500,
+    "new_price": 400,
+    "category": "kids",
+    "image": "http://localhost:4000/images/product_22.png"
+}
