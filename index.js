@@ -9,8 +9,10 @@ const path = require("path");
 const jwt = require("jsonwebtoken");
 const configData = fs.readFileSync('config.json');
 const config = JSON.parse(configData);
+// Schema
 const Product = require("./Schema/ProductSchema");
 const User = require("./Schema/UsersSchema");
+const OrderData = require("./Schema/OrderDataSchema");
 app.use(express.json());
 app.use(cors());
 const mongoURI = config.mongoURI;
@@ -338,6 +340,62 @@ app.get("/profile", fetchUser, async (req, res) => {
     res.json(user);
   } catch (error) {
     console.error("Error retrieving user profile:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Route để tạo mới một đơn hàng
+app.post("/orderData", async (req, res) => {
+  try {
+    const lastOrder = await OrderData.aggregate([
+      { $sort: { orderNumber: -1 } },
+      { $limit: 1 }
+    ]);
+
+    let nextOrderNumber = 1;
+
+    if (lastOrder.length > 0) {
+      nextOrderNumber = lastOrder[0].orderNumber + 1;
+    }
+
+    const {
+      receiverName,
+      deliveryAddress,
+      phoneNumber,
+      email,
+      note,
+      orderedProducts,
+      totalBill,
+      status 
+    } = req.body;
+
+    const newOrder = new OrderData({
+      orderNumber: nextOrderNumber,
+      receiverName,
+      deliveryAddress,
+      phoneNumber,
+      email,
+      note,
+      orderedProducts,
+      totalBill,
+      status 
+    });
+    const savedOrder = await newOrder.save();
+
+    res.status(201).json(savedOrder);
+  } catch (error) {
+    console.error("Error creating order:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Route để lấy tất cả các đơn hàng
+app.get("/orderData", async (req, res) => {
+  try {
+    const orders = await OrderData.find();
+    res.json(orders);
+  } catch (error) {
+    console.error("Error fetching orders:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
