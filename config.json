@@ -1,5 +1,7 @@
 {
     "mongoURI": "mongodb+srv://chuchu1:tuan123@cluster0.o3pv3ft.mongodb.net/iviettech",
-    "port": 4000
+    "port": 4000,
+    "email_user": "mjssdn95@gmail.com",
+    "email_password": "aqwyvwctmhnoelle"
 }
   

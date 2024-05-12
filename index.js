@@ -1,5 +1,5 @@
 const port = 4000;
-const fs = require('fs');
+const fs = require("fs");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -7,19 +7,23 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 const jwt = require("jsonwebtoken");
-const configData = fs.readFileSync('config.json');
+const configData = fs.readFileSync("config.json");
 const config = JSON.parse(configData);
 // Schema
 const Product = require("./Schema/ProductSchema");
 const User = require("./Schema/UsersSchema");
 const OrderData = require("./Schema/OrderDataSchema");
+// sendmail
+const sendOrderConfirmationEmail = require("./helper/sendOrderConfirmationEmail");
+const sendMail = require("./helper/sendmail");
 app.use(express.json());
 app.use(cors());
 const mongoURI = config.mongoURI;
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+mongoose
+  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
 
 // Image Store
 const storage = multer.diskStorage({
@@ -94,7 +98,7 @@ app.post("/removeproduct", async (req, res) => {
         success: true,
         message: "Product removed successfully",
         productid: productId,
-        name: req.body.name, 
+        name: req.body.name,
       });
     }
   } catch (error) {
@@ -132,8 +136,8 @@ app.put("/allproducts/:id", async (req, res) => {
   const productId = req.params.id;
   try {
     const updatedProduct = await Product.findOneAndUpdate(
-      { id: productId }, 
-      req.body, 
+      { id: productId },
+      req.body,
       { new: true }
     );
     if (!updatedProduct) {
@@ -206,7 +210,6 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 
-
 app.post("/signup", async (req, res) => {
   let check = await User.findOne({ email: req.body.email });
   if (check) {
@@ -226,6 +229,17 @@ app.post("/signup", async (req, res) => {
     cartData: cart,
   });
 
+  const username = req.body.username; // Lấy username từ body của request
+  const email = req.body.email; // Lấy email từ body của request
+  const password = req.body.password; // Lấy password từ body của request
+
+  try {
+    await sendMail(username, email, password);
+    console.log("Email sent successfully!");
+  } catch (error) {
+    console.error("Error sending email:", error);
+  }
+
   await user.save();
 
   const data = {
@@ -236,6 +250,7 @@ app.post("/signup", async (req, res) => {
   const token = jwt.sign(data, "secret_ecom");
   res.json({ success: true, token });
 });
+
 
 app.post("/login", async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
@@ -260,14 +275,12 @@ app.post("/login", async (req, res) => {
 app.get("/newcollections", async (req, res) => {
   let products = await Product.find();
   let newcollection = products.slice(1).slice(-8);
-  console.log(newcollection);
   res.send(newcollection);
 });
 
 app.get("/popularwomen", async (req, res) => {
   let products = await Product.find({ category: "women" });
-  let popularwomen = products.slice(1).slice(0,4);
-  console.log(popularwomen);
+  let popularwomen = products.slice(1).slice(0, 4);
   res.send(popularwomen);
 });
 
@@ -311,7 +324,7 @@ app.post("/addtocart", fetchUser, async (req, res) => {
   await User.findOneAndUpdate(
     { _id: req.user.id },
     { cartData: userData.cartData }
-  )
+  );
   res.json({ message: "added to cart" });
 });
 
@@ -326,10 +339,10 @@ app.post("/removefromcart", fetchUser, async (req, res) => {
   res.json({ message: "removed from cart" });
 });
 
-app.post('/getcart', fetchUser, async (req, res) => {
+app.post("/getcart", fetchUser, async (req, res) => {
   let userData = await User.findOne({ _id: req.user.id });
   res.send(userData.cartData);
-})
+});
 
 app.get("/profile", fetchUser, async (req, res) => {
   try {
@@ -349,7 +362,7 @@ app.post("/orderData", async (req, res) => {
   try {
     const lastOrder = await OrderData.aggregate([
       { $sort: { orderNumber: -1 } },
-      { $limit: 1 }
+      { $limit: 1 },
     ]);
 
     let nextOrderNumber = 1;
@@ -366,7 +379,7 @@ app.post("/orderData", async (req, res) => {
       note,
       orderedProducts,
       totalBill,
-      status 
+      status,
     } = req.body;
 
     const newOrder = new OrderData({
@@ -378,9 +391,12 @@ app.post("/orderData", async (req, res) => {
       note,
       orderedProducts,
       totalBill,
-      status 
+      status,
     });
     const savedOrder = await newOrder.save();
+
+    // Gửi email xác nhận đặt hàng
+    await sendOrderConfirmationEmail(savedOrder);
 
     res.status(201).json(savedOrder);
   } catch (error) {
