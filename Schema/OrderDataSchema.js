@@ -49,13 +49,27 @@ const orderDataSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'processing', 'completed', 'cancelled'], 
+    enum: ['pending', 'processing', 'completed', 'delivered' , 'shipped' , 'cancelled'], 
     default: 'pending'
+  },
+  PaymentMethodChangeEvent: {
+    type: String,
+    enum: ['Thanh Toán Online', 'Thanh Toán Nhận Hàng'],
+    default: 'Thanh Toán Nhận Hàng'
   },
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  logs: [
+    {
+      timestamp: {
+        type: Date,
+        default: Date.now
+      },
+      message: String
+    }
+  ]
 });
 
 module.exports = mongoose.model('OrderData', orderDataSchema);

@@ -2,6 +2,19 @@
     "mongoURI": "mongodb+srv://chuchu1:tuan123@cluster0.o3pv3ft.mongodb.net/iviettech",
     "port": 4000,
     "email_user": "mjssdn95@gmail.com",
-    "email_password": "aqwyvwctmhnoelle"
-}
+    "email_password": "aqwyvwctmhnoelle",
+    "momoConfig": {
+      "accessKey": "F8BBA842ECF85",
+      "secretKey": "K951B6PE1waDMi640xX08PD3vg6EkVlz",
+      "orderInfo": "pay with MoMo",
+      "partnerCode": "MOMO",
+      "redirectUrl": "http://localhost:5000/views/home.html",
+      "ipnUrl": "https://0778-14-178-58-205.ngrok-free.app/callback",
+      "requestType": "payWithMethod",
+      "extraData": "",
+      "orderGroupId": "",
+      "autoCapture": true,
+      "lang": "vi"
+    }
+  }
   

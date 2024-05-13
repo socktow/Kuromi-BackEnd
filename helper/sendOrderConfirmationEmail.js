@@ -13,7 +13,6 @@ const sendOrderConfirmationEmail = async (order) => {
             }
         });
 
-        // Tạo nội dung email từ mã HTML cung cấp
         const htmlContent = `
             <!DOCTYPE html>
             <html lang="en">
@@ -106,7 +105,6 @@ const sendOrderConfirmationEmail = async (order) => {
     }
 };
 
-// Hàm tạo nội dung chi tiết đơn hàng trong table
 const generateOrderDetails = (products) => {
     let html = '';
     products.forEach(product => {
