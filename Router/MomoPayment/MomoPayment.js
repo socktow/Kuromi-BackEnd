@@ -3,7 +3,9 @@ const router = express.Router();
 const axios = require('axios');
 const crypto = require('crypto');
 const config = require('../../config.json');
-
+// middleware 
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
 // Payment endpoint
 router.post('/payment', async (req, res) => {
   try {
@@ -77,7 +79,7 @@ router.post('/callback', async (req, res) => {
 });
 
 // Check status transaction endpoint
-router.post('/check-status-transaction', async (req, res) => {
+router.post('/checkmomopayment', async (req, res) => {
   try {
     const { orderId } = req.body;
     const secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
@@ -108,39 +110,6 @@ router.post('/check-status-transaction', async (req, res) => {
     return res.status(500).json({ statusCode: 500, message: error.message });
   }
 });
-
-// Check status transaction endpoint (GET method)
-router.get('/check-status-transaction/:orderId', async (req, res) => {
-    try {
-      const { orderId } = req.params;
-      const secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
-      const accessKey = 'F8BBA842ECF85';
-      const rawSignature = `accessKey=${accessKey}&orderId=${orderId}&partnerCode=MOMO&requestId=${orderId}`;
-      const signature = crypto
-        .createHmac('sha256', secretKey)
-        .update(rawSignature)
-        .digest('hex');
-      const requestBody = JSON.stringify({
-        partnerCode: 'MOMO',
-        requestId: orderId,
-        orderId: orderId,
-        signature: signature,
-        lang: 'vi',
-      });
-      const options = {
-        method: 'POST',
-        url: 'https://test-payment.momo.vn/v2/gateway/api/query',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: requestBody,
-      };
-      const result = await axios(options);
-      return res.status(200).json(result.data);
-    } catch (error) {
-      return res.status(500).json({ statusCode: 500, message: error.message });
-    }
-  });
 
   
 module.exports = router;

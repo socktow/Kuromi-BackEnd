@@ -8,7 +8,6 @@ const multer = require("multer");
 const path = require("path");
 const configData = fs.readFileSync("config.json");
 const config = JSON.parse(configData);
-const momoConfig = config.momoConfig;
 // Router 
 const orderDataRouter = require("./Router/Order/orderData");
 const productRouter = require("./Router/Product/product");
