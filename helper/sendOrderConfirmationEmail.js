@@ -70,6 +70,7 @@ const sendOrderConfirmationEmail = async (order) => {
                     <table>
                         <thead>
                             <tr>
+                                <th>Image</th>
                                 <th>Product</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
@@ -103,12 +104,18 @@ const sendOrderConfirmationEmail = async (order) => {
         throw error;
     }
 };
+const replaceLocalhostWithURL = (url) => {
+    // Thay thế localhost bằng chuchudayne.com
+    return url.replace('http://localhost:4000', 'http://chuchudayne.com');
+};
 
 const generateOrderDetails = (products) => {
     let html = '';
     products.forEach(product => {
+        const imageUrl = replaceLocalhostWithURL(product.image);
         html += `
             <tr>
+                <td><img src="${imageUrl}" style="max-width: 100px; height: auto;"></td> <!-- Chèn hình ảnh vào đây -->
                 <td>${product.name}</td>
                 <td>${product.quantity}</td>
                 <td>${product.total.toLocaleString("en-US")} VND</td>

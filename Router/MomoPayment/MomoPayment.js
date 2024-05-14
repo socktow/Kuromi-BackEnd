@@ -10,7 +10,7 @@ router.use(express.urlencoded({ extended: true }));
 router.post('/payment', async (req, res) => {
   try {
     const momoConfig = config.momoConfig;
-    const amount = '10000';
+    const { amount } = req.body; 
     const orderId = momoConfig.partnerCode + new Date().getTime();
     const requestId = orderId;
     const rawSignature =
@@ -65,6 +65,7 @@ router.post('/payment', async (req, res) => {
       data: requestBody,
     };
     const result = await axios(options);
+    console.log('User đã tạo payment');
     return res.status(200).json(result.data);
   } catch (error) {
     return res.status(500).json({ statusCode: 500, message: error.message });
@@ -75,7 +76,22 @@ router.post('/payment', async (req, res) => {
 router.post('/callback', async (req, res) => {
   console.log('callback: ');
   console.log(req.body);
-  return res.status(204).json(req.body);
+  if (req.body.resultCode === 0) {
+    console.log('Thanh toán thành công');
+  } else if (req.body.resultCode === 5) {
+    console.log('Người dùng đã hủy giao dịch');
+  } else if (req.body.resultCode === 9) {
+    console.log('Thông tin đơn hàng không hợp lệ');
+  } else if (req.body.resultCode === 11) {
+    console.log('Giao dịch bị từ chối bởi hệ thống ngân hàng');
+  } else if (req.body.resultCode === 12) {
+    console.log('Giao dịch bị từ chối do không đủ số dư');
+  } else if (req.body.resultCode === 13) {
+    console.log('Giao dịch bị từ chối bởi Momo');
+  } else {
+    console.log('Thanh toán thất bại với mã lỗi: ', req.body.resultCode);
+  }
+  return res.redirect(`http://localhost:3000/testpayment?resultCode=${req.body.resultCode}`);
 });
 
 // Check status transaction endpoint
@@ -111,5 +127,4 @@ router.post('/checkmomopayment', async (req, res) => {
   }
 });
 
-  
 module.exports = router;
