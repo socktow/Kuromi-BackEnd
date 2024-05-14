@@ -3,7 +3,6 @@ const config = require("../config.json");
 
 const sendOrderConfirmationEmail = async (order) => {
     try {
-        // Tạo transporter để gửi email
         const transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
             service: "gmail",

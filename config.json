@@ -9,7 +9,7 @@
       "orderInfo": "pay with MoMo",
       "partnerCode": "MOMO",
       "redirectUrl": "http://localhost:3000/payment-momo",
-      "ipnUrl": "https://16c6-2402-800-629c-e038-f406-9638-7438-e561.ngrok-free.app/momo/callback",
+      "ipnUrl": "https://b3b0-2402-800-629c-e038-f406-9638-7438-e561.ngrok-free.app/momo/callback", 
       "requestType": "payWithMethod",
       "extraData": "",
       "orderGroupId": "",

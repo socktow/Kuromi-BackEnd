@@ -23,9 +23,10 @@ const mongoURI = config.mongoURI;
 
 mongoose
 .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
+.then(() => console.log("MongoDB connected"))
+.catch((err) => console.log(err));
 // Used Router 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use('/newcollections', newCollectionsRouter);
@@ -38,7 +39,6 @@ app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use('/api', AuthRouter);
 app.use('/momo', momoPaymentRouter);
-
 const storage = multer.diskStorage({
   destination: "./upload/images",
   filename: (req, file, cb) => {
