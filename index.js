@@ -20,6 +20,7 @@ const loginRouter = require("./Router/Login/Login");
 const AuthRouter = require("./Router/Auth/Auth");
 const momoPaymentRouter = require('./Router/MomoPayment/MomoPayment');
 const ZalopaymentRouter = require('./Router/ZaloPayment/ZaloPayment');
+const vnPaypaymentRouter = require('./Router/VnpayPayment/VnpayPayment');
 const mongoURI = config.mongoURI;
 
 mongoose
@@ -41,6 +42,7 @@ app.use('/login', loginRouter);
 app.use('/api', AuthRouter);
 app.use('/momo', momoPaymentRouter);
 app.use('/zalo', ZalopaymentRouter);
+app.use('/vnpay',vnPaypaymentRouter)
 const storage = multer.diskStorage({
   destination: "./upload/images",
   filename: (req, file, cb) => {

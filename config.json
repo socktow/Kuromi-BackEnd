@@ -23,5 +23,12 @@
     "endpoint": "https://sb-openapi.zalopay.vn/v2/create",
     "redirectUrl": null,
     "ipnUrl": null
+  },
+  "vnPayConfig": {
+      "vnp_TmnCode":"FFVPJ97K",
+      "vnp_HashSecret":"RYNWINSKOKVTDSYNBYFQYEOPWKFDAUEA",
+      "vnp_Url":"https://sandbox.vnpayment.vn/paymentv2/vpcpay.html",
+      "vnp_Api":"https://sandbox.vnpayment.vn/merchant_webapi/api/transaction",
+      "vnp_ReturnUrl": "http://localhost:3000/testpayment"
   }
 }
