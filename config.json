@@ -1,20 +1,27 @@
 {
-    "mongoURI": "mongodb+srv://chuchu1:tuan123@cluster0.o3pv3ft.mongodb.net/iviettech",
-    "port": 4000,
-    "email_user": "mjssdn95@gmail.com",
-    "email_password": "aqwyvwctmhnoelle",
-    "momoConfig": {
-      "accessKey": "F8BBA842ECF85",
-      "secretKey": "K951B6PE1waDMi640xX08PD3vg6EkVlz",
-      "orderInfo": "pay with MoMo",
-      "partnerCode": "MOMO",
-      "redirectUrl": "http://localhost:3000/testpayment",
-      "ipnUrl": "https://35b0-2402-800-629c-e038-5476-1417-a96f-5fc3.ngrok-free.app/momo/callback", 
-      "requestType": "payWithMethod",
-      "extraData": "",
-      "orderGroupId": "",
-      "autoCapture": true,
-      "lang": "vi"
-    }
+  "mongoURI": "mongodb+srv://chuchu1:tuan123@cluster0.o3pv3ft.mongodb.net/iviettech",
+  "port": 4000,
+  "email_user": "mjssdn95@gmail.com",
+  "email_password": "aqwyvwctmhnoelle",
+  "momoConfig": {
+    "accessKey": "F8BBA842ECF85",
+    "secretKey": "K951B6PE1waDMi640xX08PD3vg6EkVlz",
+    "orderInfo": "pay with MoMo",
+    "partnerCode": "MOMO",
+    "redirectUrl": "http://localhost:3000/testpayment",
+    "ipnUrl": "https://35b0-2402-800-629c-e038-5476-1417-a96f-5fc3.ngrok-free.app/momo/callback",
+    "requestType": "payWithMethod",
+    "extraData": "",
+    "orderGroupId": "",
+    "autoCapture": true,
+    "lang": "vi"
+  },
+  "zaloConfig": {
+    "app_id": "2553",
+    "key1": "PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL",
+    "key2": "kLtgPl8HHhfvMuDHPwKfgfsY4Ydm9eIz",
+    "endpoint": "https://sb-openapi.zalopay.vn/v2/create",
+    "redirectUrl": null,
+    "ipnUrl": null
   }
-  
+}
