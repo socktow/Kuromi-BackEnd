@@ -1,18 +1,33 @@
 const express = require('express');
 const router = express.Router();
-const OrderData = require('../../Schema/OrderDataSchema'); 
+const OrderData = require('../../Schema/OrderDataSchema');
 const sendOrderConfirmationEmail = require('../../helper/sendOrderConfirmationEmail');
+
 router.get('/', async (req, res) => {
   try {
     const orders = await OrderData.find();
     res.json(orders);
   } catch (error) {
-    console.error("Error fetching orders:", error);
-    res.status(500).json({ error: "Server error" });
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-router.post("/", async (req, res) => {
+router.get('/:orderNumber', async (req, res) => {
+  const { orderNumber } = req.params;
+  try {
+    const order = await OrderData.findOne({ orderNumber: parseInt(orderNumber, 10) });
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    res.json(order);
+  } catch (error) {
+    console.error('Error fetching order detail:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+router.post('/', async (req, res) => {
   try {
     const lastOrder = await OrderData.aggregate([
       { $sort: { orderNumber: -1 } },
@@ -26,6 +41,7 @@ router.post("/", async (req, res) => {
     }
 
     const {
+      userId,
       receiverName,
       deliveryAddress,
       phoneNumber,
@@ -38,6 +54,7 @@ router.post("/", async (req, res) => {
     } = req.body;
 
     const newOrder = new OrderData({
+      userId,
       orderNumber: nextOrderNumber,
       receiverName,
       deliveryAddress,
@@ -50,22 +67,25 @@ router.post("/", async (req, res) => {
       status,
     });
     const savedOrder = await newOrder.save();
-    await sendOrderConfirmationEmail(savedOrder);
+    // await sendOrderConfirmationEmail(savedOrder);
     res.status(201).json(savedOrder);
   } catch (error) {
-    console.error("Error creating order:", error);
-    res.status(500).json({ error: "Server error" });
+    console.error('Error creating order:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
 router.patch("/:orderId", async (req, res) => {
   const { orderId } = req.params;
-  const { status } = req.body;
+  const { status, message } = req.body;
 
   try {
     const updatedOrder = await OrderData.findByIdAndUpdate(
       orderId,
-      { status },
+      {
+        status,
+        $push: { logs: { message: `Status changed to ${status}` } }
+      },
       { new: true }
     );
 

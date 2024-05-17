@@ -26,8 +26,8 @@ router.post("/payment", async (req, res) => {
     item: JSON.stringify(items),
     embed_data: JSON.stringify(embed_data),
     amount: 50000,
-    callback_url: "https://1f80-2402-800-629c-e038-5cde-a664-703c-769b.ngrok-free.app/zalo/callback",
-    description: `Lazada - Payment for the order #${transID}`,
+    callback_url: "https://999a-2402-800-629c-e038-ec55-983d-9eaf-8498.ngrok-free.app/zalo/callback",
+    description: `Kuromi - Payment for the order #${transID}`,
     bank_code: "",
   };
 

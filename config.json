@@ -6,10 +6,9 @@
   "momoConfig": {
     "accessKey": "F8BBA842ECF85",
     "secretKey": "K951B6PE1waDMi640xX08PD3vg6EkVlz",
-    "orderInfo": "pay with MoMo",
     "partnerCode": "MOMO",
-    "redirectUrl": "http://localhost:3000/testpayment",
-    "ipnUrl": "https://35b0-2402-800-629c-e038-5476-1417-a96f-5fc3.ngrok-free.app/momo/callback",
+    "redirectUrl": "http://localhost:3000/online-payment/momo",
+    "ipnUrl": "https://999a-2402-800-629c-e038-ec55-983d-9eaf-8498.ngrok-free.app/momo/callback",
     "requestType": "payWithMethod",
     "extraData": "",
     "orderGroupId": "",

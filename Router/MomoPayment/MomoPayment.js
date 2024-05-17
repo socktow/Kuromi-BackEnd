@@ -13,6 +13,7 @@ router.post('/payment', async (req, res) => {
     const { amount } = req.body; 
     const orderId = momoConfig.partnerCode + new Date().getTime();
     const requestId = orderId;
+    const orderInfo = `Kuromi - ${orderId}`;
     const rawSignature =
       'accessKey=' +
       momoConfig.accessKey +
@@ -25,7 +26,7 @@ router.post('/payment', async (req, res) => {
       '&orderId=' +
       orderId +
       '&orderInfo=' +
-      momoConfig.orderInfo +
+      orderInfo +
       '&partnerCode=' +
       momoConfig.partnerCode +
       '&redirectUrl=' +
@@ -34,10 +35,12 @@ router.post('/payment', async (req, res) => {
       requestId +
       '&requestType=' +
       momoConfig.requestType;
+    
     const signature = crypto
       .createHmac('sha256', momoConfig.secretKey)
       .update(rawSignature)
       .digest('hex');
+    
     const requestBody = JSON.stringify({
       partnerCode: momoConfig.partnerCode,
       partnerName: 'Test',
@@ -45,7 +48,7 @@ router.post('/payment', async (req, res) => {
       requestId: requestId,
       amount: amount,
       orderId: orderId,
-      orderInfo: momoConfig.orderInfo,
+      orderInfo: orderInfo,
       redirectUrl: momoConfig.redirectUrl,
       ipnUrl: momoConfig.ipnUrl,
       lang: momoConfig.lang,
@@ -55,6 +58,7 @@ router.post('/payment', async (req, res) => {
       orderGroupId: momoConfig.orderGroupId,
       signature: signature,
     });
+    
     const options = {
       method: 'POST',
       url: 'https://test-payment.momo.vn/v2/gateway/api/create',
@@ -64,6 +68,7 @@ router.post('/payment', async (req, res) => {
       },
       data: requestBody,
     };
+    
     const result = await axios(options);
     console.log('User đã tạo payment');
     return res.status(200).json(result.data);
@@ -71,6 +76,7 @@ router.post('/payment', async (req, res) => {
     return res.status(500).json({ statusCode: 500, message: error.message });
   }
 });
+
 
 // Callback endpoint
 router.post('/callback', async (req, res) => {

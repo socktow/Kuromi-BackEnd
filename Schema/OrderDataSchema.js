@@ -6,6 +6,9 @@ const orderDataSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+  },  
   receiverName: {
     type: String,
     required: true
@@ -54,7 +57,7 @@ const orderDataSchema = new mongoose.Schema({
   },
   PaymentMethodChangeEvent: {
     type: String,
-    enum: ['Thanh Toán Online', 'Thanh Toán Nhận Hàng'],
+    enum: ['MOMO', 'ZALOPAY', 'Thanh Toán Nhận Hàng'],
     default: 'Thanh Toán Nhận Hàng'
   },
   createdAt: {
