@@ -72,4 +72,45 @@ router.get("/profile", fetchUser, async (req, res) => {
   }
 });
 
+router.patch("/profile", fetchUser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (req.body.cartData) {
+      user.cartData = req.body.cartData;
+    }
+
+    await user.save();
+    res.json({ message: "User profile updated", user });
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.put("/profile", fetchUser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.address = req.body.address || user.address;
+    user.phone = req.body.phone || user.phone;
+    user.cartData = req.body.cartData || user.cartData;
+
+    await user.save();
+    res.json({ message: "User profile updated", user });
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
 module.exports = router;

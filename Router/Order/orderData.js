@@ -80,12 +80,14 @@ router.patch("/:orderId", async (req, res) => {
   const { status, message } = req.body;
 
   try {
+    let updateFields = { status };
+    if (message) {
+      updateFields.$push = { logs: { message } };
+    }
+
     const updatedOrder = await OrderData.findByIdAndUpdate(
       orderId,
-      {
-        status,
-        $push: { logs: { message: `Status changed to ${status}` } }
-      },
+      updateFields,
       { new: true }
     );
 
