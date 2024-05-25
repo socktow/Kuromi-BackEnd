@@ -1,5 +1,21 @@
 const mongoose = require("mongoose");
 
+const CartItemSchema = new mongoose.Schema({
+  productId: {
+    type: mongoose.Schema.Types.Number,
+    required: true,
+  },
+  size: {
+    type: String,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+});
+
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -19,7 +35,8 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   cartData: {
-    type: Object,
+    type: [CartItemSchema],
+    default: [],
   },
   date: {
     type: Date,

@@ -16,6 +16,8 @@ router.post("/addproduct", async (req, res) => {
       new_price: req.body.new_price,
       old_price: req.body.old_price,
       available: req.body.available,
+      shortDescription: req.body.shortDescription,
+      longDescription: req.body.longDescription,
     });
 
     await product.save();
@@ -54,10 +56,19 @@ router.post("/removeproduct", async (req, res) => {
   }
 });
 
-// Get all Products
+// Get all Products with optional search query
 router.get("/allproducts", async (req, res) => {
+  const searchQuery = req.query.search;
+  let products;
+
   try {
-    const products = await Product.find();
+    if (searchQuery) {
+      products = await Product.find({ 
+        name: { $regex: searchQuery, $options: "i" } 
+      });
+    } else {
+      products = await Product.find();
+    }
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
