@@ -12,7 +12,7 @@ router.use(express.urlencoded({ extended: true }));
 
 router.post("/payment", async (req, res) => {
   const embed_data = {
-    redirecturl: "https://chuchudayne.com",
+    redirecturl: "http://localhost:3000/online-payment/zalopay",
   };
 
   const items = [];
@@ -25,8 +25,8 @@ router.post("/payment", async (req, res) => {
     app_time: Date.now(),
     item: JSON.stringify(items),
     embed_data: JSON.stringify(embed_data),
-    amount: 50000,
-    callback_url: "https://9312-2402-800-629c-e038-215e-466-9692-2807.ngrok-free.app/zalo/callback",
+    amount: req.body.amount,
+    callback_url: "https://234b-113-160-235-103.ngrok-free.app/zalo/callback",
     description: `Kuromi - Payment for the order #${transID}`,
     bank_code: "",
   };

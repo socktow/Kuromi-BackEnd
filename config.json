@@ -8,7 +8,7 @@
     "secretKey": "K951B6PE1waDMi640xX08PD3vg6EkVlz",
     "partnerCode": "MOMO",
     "redirectUrl": "http://localhost:3000/online-payment/momo",
-    "ipnUrl": "https://9312-2402-800-629c-e038-215e-466-9692-2807.ngrok-free.app/momo/callback",
+    "ipnUrl": "https://234b-113-160-235-103.ngrok-free.app/momo/callback",
     "requestType": "payWithMethod",
     "extraData": "",
     "orderGroupId": "",

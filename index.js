@@ -23,7 +23,6 @@ const loginRouter = require("./Router/Login/Login");
 const AuthRouter = require("./Router/Auth/Auth");
 const momoPaymentRouter = require('./Router/MomoPayment/MomoPayment');
 const ZalopaymentRouter = require('./Router/ZaloPayment/ZaloPayment');
-const VnpayPaymentRouter = require('./Router/VnpayPayment/VnpayPayment');
 const VoucherRouter = require('./Router/Voucher/Voucher');
 const verifyEmailRouter = require('./Router/verify-email/verify-email');
 const mongoURI = config.mongoURI;
@@ -49,7 +48,6 @@ app.use('/api', AuthRouter);
 app.use('/api', VoucherRouter);
 app.use('/momo', momoPaymentRouter);
 app.use('/zalo', ZalopaymentRouter);
-app.use('/vnpay', VnpayPaymentRouter);
 app.use('/verify-email', verifyEmailRouter);
 
 // Cấu hình multer
