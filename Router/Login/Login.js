@@ -9,6 +9,9 @@ router.post("/", async (req, res) => {
     if (user) {
       const passCompare = req.body.password === user.password;
       if (passCompare) {
+        if (!user.isEmailVerified) {
+          return res.status(400).json({ success: false, errors: "Email not verified" });
+        }
         const data = {
           user: {
             id: user.id,

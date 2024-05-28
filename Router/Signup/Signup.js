@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../Schema/UsersSchema'); 
+const User = require('../../Schema/UsersSchema');
 const jwt = require('jsonwebtoken');
 const sendMail = require('../../helper/sendmail');
+const crypto = require('crypto');
 
 router.post("/", async (req, res) => {
   try {
@@ -15,6 +16,9 @@ router.post("/", async (req, res) => {
       });
     }
 
+    // Tạo một token xác minh email
+    const emailVerificationToken = crypto.randomBytes(32).toString('hex');
+
     // Tạo một người dùng mới
     const newUser = new User({
       name: req.body.username,
@@ -22,13 +26,15 @@ router.post("/", async (req, res) => {
       password: req.body.password,
       cartData: req.body.cartData, // Sử dụng dữ liệu giỏ hàng từ yêu cầu
       isAdmin: false, // Chỉ đăng ký người dùng mới, không phải là admin
+      emailVerificationToken: emailVerificationToken,
     });
 
     // Lưu người dùng mới vào cơ sở dữ liệu
     await newUser.save();
 
     // Gửi email xác nhận đăng ký
-    await sendMail(req.body.username, req.body.email, req.body.password);
+    const verificationLink = `http://localhost:3000/email-verify?token=${emailVerificationToken}`;
+    await sendMail(req.body.username, req.body.email, verificationLink);
     console.log("Email sent successfully!");
 
     // Tạo mã token JWT cho người dùng mới

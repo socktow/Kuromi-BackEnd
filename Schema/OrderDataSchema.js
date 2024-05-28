@@ -57,7 +57,7 @@ const orderDataSchema = new mongoose.Schema({
   },
   PaymentMethodChangeEvent: {
     type: String,
-    enum: ['MOMO', 'ZALOPAY', 'Thanh Toán Nhận Hàng'],
+    enum: ['MOMO PAYMENT', 'ZALOPAY', 'Thanh Toán Nhận Hàng'],
     default: 'Thanh Toán Nhận Hàng'
   },
   createdAt: {

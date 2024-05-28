@@ -105,7 +105,6 @@ const sendOrderConfirmationEmail = async (order) => {
     }
 };
 const replaceLocalhostWithURL = (url) => {
-    // Thay thế localhost bằng chuchudayne.com
     return url.replace('http://localhost:4000', 'http://chuchudayne.com');
 };
 

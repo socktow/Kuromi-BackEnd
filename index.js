@@ -6,8 +6,11 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
+
+// Đọc cấu hình từ tệp config.json
 const configData = fs.readFileSync("config.json");
 const config = JSON.parse(configData);
+
 // Router 
 const orderDataRouter = require("./Router/Order/orderData");
 const productRouter = require("./Router/Product/product");
@@ -22,12 +25,14 @@ const momoPaymentRouter = require('./Router/MomoPayment/MomoPayment');
 const ZalopaymentRouter = require('./Router/ZaloPayment/ZaloPayment');
 const VnpayPaymentRouter = require('./Router/VnpayPayment/VnpayPayment');
 const VoucherRouter = require('./Router/Voucher/Voucher');
+const verifyEmailRouter = require('./Router/verify-email/verify-email');
 const mongoURI = config.mongoURI;
 
 mongoose
 .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => console.log("MongoDB connected"))
 .catch((err) => console.log(err));
+
 // Used Router 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -45,6 +50,9 @@ app.use('/api', VoucherRouter);
 app.use('/momo', momoPaymentRouter);
 app.use('/zalo', ZalopaymentRouter);
 app.use('/vnpay', VnpayPaymentRouter);
+app.use('/verify-email', verifyEmailRouter);
+
+// Cấu hình multer
 const storage = multer.diskStorage({
   destination: "./upload/images",
   filename: (req, file, cb) => {
@@ -68,6 +76,8 @@ app.post("/upload", upload.single("product"), (req, res) => {
     message: "File uploaded successfully",
   });
 });
+
+// Khởi động server
 app.listen(port, (error) => {
   if (error) {
     console.log(error);

@@ -8,7 +8,7 @@
     "secretKey": "K951B6PE1waDMi640xX08PD3vg6EkVlz",
     "partnerCode": "MOMO",
     "redirectUrl": "http://localhost:3000/online-payment/momo",
-    "ipnUrl": "https://999a-2402-800-629c-e038-ec55-983d-9eaf-8498.ngrok-free.app/momo/callback",
+    "ipnUrl": "https://9312-2402-800-629c-e038-215e-466-9692-2807.ngrok-free.app/momo/callback",
     "requestType": "payWithMethod",
     "extraData": "",
     "orderGroupId": "",
@@ -22,12 +22,5 @@
     "endpoint": "https://sb-openapi.zalopay.vn/v2/create",
     "redirectUrl": null,
     "ipnUrl": null
-  },
-  "vnPayConfig": {
-      "vnp_TmnCode":"FFVPJ97K",
-      "vnp_HashSecret":"RYNWINSKOKVTDSYNBYFQYEOPWKFDAUEA",
-      "vnp_Url":"https://sandbox.vnpayment.vn/paymentv2/vpcpay.html",
-      "vnp_Api":"https://sandbox.vnpayment.vn/merchant_webapi/api/transaction",
-      "vnp_ReturnUrl": "http://localhost:3000/testpayment"
   }
 }
