@@ -42,6 +42,10 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   isEmailVerified: {
     type: Boolean,
     default: false,

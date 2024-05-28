@@ -80,20 +80,15 @@ router.patch("/:orderId", async (req, res) => {
   const { status, message } = req.body;
 
   try {
-    let updateFields = { status };
-    if (message) {
-      updateFields.$push = { logs: { message } };
-    }
-
-    const updatedOrder = await OrderData.findByIdAndUpdate(
-      orderId,
-      updateFields,
-      { new: true }
-    );
-
-    if (!updatedOrder) {
+    const order = await OrderData.findById(orderId);
+    if (!order) {
       return res.status(404).json({ error: "Order not found" });
     }
+
+    order.status = status;
+    order.logs.push({ message });
+
+    const updatedOrder = await order.save();
 
     res.json(updatedOrder);
   } catch (error) {
