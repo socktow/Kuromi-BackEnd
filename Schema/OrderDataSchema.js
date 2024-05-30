@@ -60,6 +60,10 @@ const orderDataSchema = new mongoose.Schema({
     enum: ['MOMO PAYMENT', 'ZALOPAY', 'Thanh Toán Nhận Hàng'],
     default: 'Thanh Toán Nhận Hàng'
   },
+  Voucher:{
+    type: String,
+    default: null
+  },
   createdAt: {
     type: Date,
     default: Date.now

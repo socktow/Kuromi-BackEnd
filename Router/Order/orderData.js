@@ -49,6 +49,7 @@ router.post('/', async (req, res) => {
       note,
       orderedProducts,
       PaymentMethodChangeEvent,
+      Voucher,
       totalBill,
       status,
     } = req.body;
@@ -62,6 +63,7 @@ router.post('/', async (req, res) => {
       email,
       note,
       PaymentMethodChangeEvent,
+      Voucher,
       orderedProducts,
       totalBill,
       status,
