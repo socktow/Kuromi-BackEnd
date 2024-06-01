@@ -5,6 +5,22 @@ const sendOrderConfirmationEmail = require('../../helper/sendOrderConfirmationEm
 
 router.get('/', async (req, res) => {
   try {
+    const { mathanhtoan } = req.query;
+    if (mathanhtoan) {
+      const orders = await OrderData.find({ mathanhtoan });
+      res.json(orders);
+    } else {
+      const orders = await OrderData.find();
+      res.json(orders);
+    }
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+router.get('/', async (req, res) => {
+  try {
     const orders = await OrderData.find();
     res.json(orders);
   } catch (error) {
@@ -12,6 +28,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 router.get('/:orderNumber', async (req, res) => {
   const { orderNumber } = req.params;
@@ -50,6 +67,7 @@ router.post('/', async (req, res) => {
       orderedProducts,
       PaymentMethodChangeEvent,
       Voucher,
+      mathanhtoan,
       totalBill,
       status,
     } = req.body;
@@ -64,6 +82,7 @@ router.post('/', async (req, res) => {
       note,
       PaymentMethodChangeEvent,
       Voucher,
+      mathanhtoan,
       orderedProducts,
       totalBill,
       status,

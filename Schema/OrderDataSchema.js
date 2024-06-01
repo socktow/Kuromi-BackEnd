@@ -25,6 +25,11 @@ const orderDataSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  mathanhtoan:{
+    type: String,
+    default: null
+
+  },
   note: String,
   orderedProducts: [
     {
@@ -57,7 +62,7 @@ const orderDataSchema = new mongoose.Schema({
   },
   PaymentMethodChangeEvent: {
     type: String,
-    enum: ['MOMO PAYMENT', 'ZALOPAY', 'Thanh Toán Nhận Hàng'],
+    enum: ['MOMO', 'ZALOPAY', 'Thanh Toán Nhận Hàng'],
     default: 'Thanh Toán Nhận Hàng'
   },
   Voucher:{
