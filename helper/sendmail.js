@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const config = require("../config.json");
 
-const sendMail = async (username, email, verificationUrl) => {
+const sendMail = async (username, email, password, verificationUrl) => {
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         service: "gmail",
@@ -15,6 +15,8 @@ const sendMail = async (username, email, verificationUrl) => {
     const html = `
         <p>Bạn đã đăng ký thành công!</p>
         <p><strong>Tên Khách Hàng:</strong> ${username}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Mật Khẩu :</strong> ${password}</p>
         <p>Vui lòng xác minh email của bạn bằng cách nhấp vào liên kết dưới đây:</p>
         <a href="${verificationUrl}">Xác minh email</a>
     `;
