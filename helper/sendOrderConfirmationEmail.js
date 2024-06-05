@@ -67,6 +67,7 @@ const sendOrderConfirmationEmail = async (order) => {
                     <p><strong>Delivery Address:</strong> ${order.deliveryAddress}</p>
                     <p><strong>Phone Number:</strong> ${order.phoneNumber}</p>
                     <p><strong>Note:</strong> ${order.note ? order.note : "Không có ghi chú nào"}</p>
+                    <p><strong>Voucher:</strong> ${order.Voucher ? order.Voucher : "Không có voucher"}</p>
                     <table>
                         <thead>
                             <tr>

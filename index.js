@@ -25,6 +25,7 @@ const momoPaymentRouter = require('./Router/MomoPayment/MomoPayment');
 const ZalopaymentRouter = require('./Router/ZaloPayment/ZaloPayment');
 const VoucherRouter = require('./Router/Voucher/Voucher');
 const verifyEmailRouter = require('./Router/verify-email/verify-email');
+const userIpRouter = require('./Router/UserIp/userIpRouter');
 const mongoURI = config.mongoURI;
 
 mongoose
@@ -49,7 +50,7 @@ app.use('/api', VoucherRouter);
 app.use('/momo', momoPaymentRouter);
 app.use('/zalo', ZalopaymentRouter);
 app.use('/verify-email', verifyEmailRouter);
-
+app.use('/api', userIpRouter);
 // Cấu hình multer
 const storage = multer.diskStorage({
   destination: "./upload/images",
