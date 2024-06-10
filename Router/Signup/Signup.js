@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../../Schema/UsersSchema');
 const jwt = require('jsonwebtoken');
 const sendMail = require('../../helper/sendmail');
+const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
 router.post("/", async (req, res) => {
@@ -15,10 +16,12 @@ router.post("/", async (req, res) => {
       });
     }
     const emailVerificationToken = crypto.randomBytes(32).toString('hex');
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     const newUser = new User({
       name: req.body.username,
       email: req.body.email,
-      password: req.body.password,
+      password: hashedPassword,
       cartData: req.body.cartData,
       isAdmin: false,
       emailVerificationToken: emailVerificationToken,

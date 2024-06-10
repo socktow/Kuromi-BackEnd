@@ -5,6 +5,7 @@ const mongoose = require('mongoose'); // Add this line to import mongoose
 const Comment = require('../../Schema/CommentSchema');
 const Product = require('../../Schema/ProductSchema');
 const User = require('../../Schema/UsersSchema');
+const bcrypt = require('bcrypt');
 
 const fetchUser = async (req, res, next) => {
   const token = req.header("auth-token");
@@ -155,11 +156,23 @@ router.put("/profile", fetchUser, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-    user.address = req.body.address || user.address;
-    user.phone = req.body.phone || user.phone;
-    user.cartData = req.body.cartData || user.cartData;
+    const { currentPassword, newPassword, name, email, address, phone, cartData } = req.body;
+
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (address) user.address = address;
+    if (phone) user.phone = phone;
+    if (cartData) user.cartData = cartData;
+
+    if (currentPassword && newPassword) {
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ message: "Current password is incorrect" });
+      }
+
+      const saltRounds = 10;
+      user.password = await bcrypt.hash(newPassword, saltRounds);
+    }
 
     await user.save();
     res.json({ message: "User profile updated", user });

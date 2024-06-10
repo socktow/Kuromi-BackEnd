@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../Schema/UsersSchema');
-
+const bcrypt = require('bcrypt');
 // Lấy tất cả người dùng
 router.get("/", async (req, res) => {
   try {
@@ -19,6 +19,10 @@ router.post("/", async (req, res) => {
     const userData = req.body;
     if (!userData) {
       return res.status(400).json({ error: "Missing user data" });
+    }
+    if (userData.password) {
+      const saltRounds = 10;
+      userData.password = await bcrypt.hash(userData.password, saltRounds);
     }
     const newUser = await User.create(userData);
     res.status(201).json(newUser);
@@ -40,6 +44,12 @@ router.put("/:id", async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({ error: "User not found" });
     }
+
+    if (updatedData.password) {
+      const saltRounds = 10;
+      updatedData.password = await bcrypt.hash(updatedData.password, saltRounds);
+    }
+
     Object.assign(existingUser, updatedData);
     const updatedUser = await existingUser.save();
     res.json(updatedUser);

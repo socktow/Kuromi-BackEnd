@@ -88,7 +88,7 @@ router.post('/', async (req, res) => {
       status,
     });
     const savedOrder = await newOrder.save();
-    // await sendOrderConfirmationEmail(savedOrder);
+    await sendOrderConfirmationEmail(savedOrder);
     res.status(201).json(savedOrder);
   } catch (error) {
     console.error('Error creating order:', error);
