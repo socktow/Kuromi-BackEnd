@@ -71,6 +71,7 @@ router.post('/payment', async (req, res) => {
     
     const result = await axios(options);
     console.log('User đã tạo payment');
+    console.log(result.data);
     return res.status(200).json(result.data);
   } catch (error) {
     return res.status(500).json({ statusCode: 500, message: error.message });
