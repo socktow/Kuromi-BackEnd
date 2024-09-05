@@ -1,26 +1,26 @@
-const config = {
-  mongoURI: process.env.MONGO_URI,
-  port: process.env.PORT || 4000,
-  email_user: process.env.EMAIL_USER,
-  email_password: process.env.EMAIL_PASSWORD,
-  momoConfig: {
-    accessKey: process.env.MOMO_ACCESS_KEY,
-    secretKey: process.env.MOMO_SECRET_KEY,
-    partnerCode: process.env.MOMO_PARTNER_CODE,
-    redirectUrl: process.env.MOMO_REDIRECT_URL,
-    ipnUrl: process.env.MOMO_IPN_URL,
-    requestType: process.env.MOMO_REQUEST_TYPE,
-    extraData: process.env.MOMO_EXTRA_DATA,
-    orderGroupId: process.env.MOMO_ORDER_GROUP_ID,
-    autoCapture: process.env.MOMO_AUTO_CAPTURE === 'true',
-    lang: process.env.MOMO_LANG
+{
+  "mongoURI": "mongodb+srv://chuchu1:tuan123@cluster0.o3pv3ft.mongodb.net/iviettech",
+  "port": 4000,
+  "email_user": "mjssdn95@gmail.com",
+  "email_password": "aqwyvwctmhnoelle",
+  "momoConfig": {
+    "accessKey": "F8BBA842ECF85",
+    "secretKey": "K951B6PE1waDMi640xX08PD3vg6EkVlz",
+    "partnerCode": "MOMO",
+    "redirectUrl": "http://localhost:3000/online-payment/momo",
+    "ipnUrl": "https://234b-113-160-235-103.ngrok-free.app/momo/callback",
+    "requestType": "payWithMethod",
+    "extraData": "",
+    "orderGroupId": "",
+    "autoCapture": true,
+    "lang": "vi"
   },
-  zaloConfig: {
-    app_id: process.env.ZALO_APP_ID,
-    key1: process.env.ZALO_KEY1,
-    key2: process.env.ZALO_KEY2,
-    endpoint: process.env.ZALO_ENDPOINT,
-    redirectUrl: process.env.ZALO_REDIRECT_URL,
-    ipnUrl: process.env.ZALO_IPN_URL
+  "zaloConfig": {
+    "app_id": "2553",
+    "key1": "PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL",
+    "key2": "kLtgPl8HHhfvMuDHPwKfgfsY4Ydm9eIz",
+    "endpoint": "https://sb-openapi.zalopay.vn/v2/create",
+    "redirectUrl": null,
+    "ipnUrl": null
   }
-};
+}
