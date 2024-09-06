@@ -1,3 +1,4 @@
+const port = 4000;
 const fs = require("fs");
 const express = require("express");
 const app = express();
@@ -5,11 +6,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
-require("dotenv").config(); // Đọc các biến môi trường từ .env
 
-// Lấy các giá trị từ biến môi trường
-const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/test";
-const port = process.env.PORT || 4000;
+// Đọc cấu hình từ tệp config.json
+const configData = fs.readFileSync("config.json");
+const config = JSON.parse(configData);
 
 // Router 
 const orderDataRouter = require("./Router/Order/orderData");
@@ -26,14 +26,14 @@ const ZalopaymentRouter = require('./Router/ZaloPayment/ZaloPayment');
 const VoucherRouter = require('./Router/Voucher/Voucher');
 const verifyEmailRouter = require('./Router/verify-email/verify-email');
 const userIpRouter = require('./Router/UserIp/userIpRouter');
+const mongoURI = config.mongoURI;
 
-// Kết nối MongoDB
 mongoose
 .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => console.log("MongoDB connected"))
 .catch((err) => console.log(err));
 
-// Sử dụng Router 
+// Used Router 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
@@ -51,14 +51,13 @@ app.use('/momo', momoPaymentRouter);
 app.use('/zalo', ZalopaymentRouter);
 app.use('/verify-email', verifyEmailRouter);
 app.use('/api', userIpRouter);
-
-// Cấu hình multer cho upload file
+// Cấu hình multer
 const storage = multer.diskStorage({
   destination: "./upload/images",
   filename: (req, file, cb) => {
     cb(
       null,
-      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
+      ${file.fieldname}_${Date.now()}${path.extname(file.originalname)}
     );
   },
 });
@@ -72,7 +71,7 @@ app.post("/upload", upload.single("product"), (req, res) => {
   }
   res.json({
     success: true,
-    image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    image_url: http://localhost:${port}/images/${req.file.filename},
     message: "File uploaded successfully",
   });
 });
@@ -82,6 +81,6 @@ app.listen(port, (error) => {
   if (error) {
     console.log(error);
   } else {
-    console.log(`Server is running on port ${port}`);
+    console.log(Server is running on port ${port});
   }
 });
