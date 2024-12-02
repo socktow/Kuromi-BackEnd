@@ -49,7 +49,7 @@ app.use('/api', VoucherRouter);
 app.use('/momo', momoPaymentRouter);
 app.use('/zalo', ZalopaymentRouter);
 app.use('/verify-email', verifyEmailRouter);
-
+app.use(express.static(path.join(__dirname, 'public')));
 // // Cấu hình multer
 // const storage = multer.diskStorage({
 //   destination: "./upload/images",
@@ -61,7 +61,6 @@ app.use('/verify-email', verifyEmailRouter);
 //   },
 // });
 // const upload = multer({ storage: storage });
-app.use("/images", express.static("upload/images"));
 // app.post("/upload", upload.single("product"), (req, res) => {
 //   if (!req.file) {
 //     return res
