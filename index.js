@@ -50,30 +50,30 @@ app.use('/momo', momoPaymentRouter);
 app.use('/zalo', ZalopaymentRouter);
 app.use('/verify-email', verifyEmailRouter);
 
-// Cấu hình multer
-const storage = multer.diskStorage({
-  destination: "./upload/images",
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
-    );
-  },
-});
-const upload = multer({ storage: storage });
-app.use("/images", express.static("upload/images"));
-app.post("/upload", upload.single("product"), (req, res) => {
-  if (!req.file) {
-    return res
-      .status(400)
-      .json({ success: false, message: "No file uploaded" });
-  }
-  res.json({
-    success: true,
-    image_url: `http://localhost:${PORT}/images/${req.file.filename}`,
-    message: "File uploaded successfully",
-  });
-});
+// // Cấu hình multer
+// const storage = multer.diskStorage({
+//   destination: "./upload/images",
+//   filename: (req, file, cb) => {
+//     cb(
+//       null,
+//       `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
+//     );
+//   },
+// });
+// const upload = multer({ storage: storage });
+// app.use("/images", express.static("upload/images"));
+// app.post("/upload", upload.single("product"), (req, res) => {
+//   if (!req.file) {
+//     return res
+//       .status(400)
+//       .json({ success: false, message: "No file uploaded" });
+//   }
+//   res.json({
+//     success: true,
+//     image_url: `http://localhost:${PORT}/images/${req.file.filename}`,
+//     message: "File uploaded successfully",
+//   });
+// });
 
 // Khởi động server
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
