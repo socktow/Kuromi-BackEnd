@@ -11,8 +11,7 @@ const path = require("path");
 const PORT = process.env.PORT || 4000;
 const MONGO_URI = process.env.MONGO_URI;
 
-mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
@@ -30,7 +29,6 @@ const momoPaymentRouter = require('./Router/MomoPayment/MomoPayment');
 const ZalopaymentRouter = require('./Router/ZaloPayment/ZaloPayment');
 const VoucherRouter = require('./Router/Voucher/Voucher');
 const verifyEmailRouter = require('./Router/verify-email/verify-email');
-const userIpRouter = require('./Router/UserIp/userIpRouter');
 
 // Cấu hình middleware
 app.use(express.urlencoded({ extended: true }));
@@ -51,7 +49,6 @@ app.use('/api', VoucherRouter);
 app.use('/momo', momoPaymentRouter);
 app.use('/zalo', ZalopaymentRouter);
 app.use('/verify-email', verifyEmailRouter);
-app.use('/api', userIpRouter);
 
 // Cấu hình multer
 const storage = multer.diskStorage({
@@ -73,16 +70,10 @@ app.post("/upload", upload.single("product"), (req, res) => {
   }
   res.json({
     success: true,
-    image_url: `http://localhost:${port}/images/${req.file.filename}`,
+    image_url: `http://localhost:${PORT}/images/${req.file.filename}`,
     message: "File uploaded successfully",
   });
 });
 
 // Khởi động server
-app.listen(PORT, (error) => { 
-  if (error) {
-    console.error('Error starting server:', error);
-  } else {
-    console.log(`Server is running on port ${PORT}`);
-  }
-});
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
