@@ -61,7 +61,7 @@ app.use('/verify-email', verifyEmailRouter);
 //   },
 // });
 // const upload = multer({ storage: storage });
-// app.use("/images", express.static("upload/images"));
+app.use("/images", express.static("upload/images"));
 // app.post("/upload", upload.single("product"), (req, res) => {
 //   if (!req.file) {
 //     return res
