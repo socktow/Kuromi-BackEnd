@@ -1,4 +1,4 @@
-const port = 4000;
+require('dotenv').config();
 const fs = require("fs");
 const express = require("express");
 const app = express();
@@ -7,11 +7,17 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 
-// Đọc cấu hình từ tệp config.json
-const configData = fs.readFileSync("config.json");
-const config = JSON.parse(configData);
+// Sử dụng biến môi trường
+const port = process.env.PORT || 4000;
+const mongoURI = process.env.MONGO_URI;
 
-// Router 
+// Kết nối MongoDB
+mongoose
+  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
+
+// Định nghĩa Router
 const orderDataRouter = require("./Router/Order/orderData");
 const productRouter = require("./Router/Product/product");
 const newCollectionsRouter = require("./Router/newcollections/newcollections");
@@ -26,17 +32,13 @@ const ZalopaymentRouter = require('./Router/ZaloPayment/ZaloPayment');
 const VoucherRouter = require('./Router/Voucher/Voucher');
 const verifyEmailRouter = require('./Router/verify-email/verify-email');
 const userIpRouter = require('./Router/UserIp/userIpRouter');
-const mongoURI = config.mongoURI;
 
-mongoose
-.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-.then(() => console.log("MongoDB connected"))
-.catch((err) => console.log(err));
-
-// Used Router 
+// Cấu hình middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+
+// Sử dụng Router
 app.use('/newcollections', newCollectionsRouter);
 app.use('/popularwomen', popularwomenRouter);
 app.get("/relatedproducts", relatedproductsRouter);
@@ -51,13 +53,14 @@ app.use('/momo', momoPaymentRouter);
 app.use('/zalo', ZalopaymentRouter);
 app.use('/verify-email', verifyEmailRouter);
 app.use('/api', userIpRouter);
+
 // Cấu hình multer
 const storage = multer.diskStorage({
   destination: "./upload/images",
   filename: (req, file, cb) => {
     cb(
       null,
-      ${file.fieldname}_${Date.now()}${path.extname(file.originalname)}
+      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
     );
   },
 });
@@ -71,7 +74,7 @@ app.post("/upload", upload.single("product"), (req, res) => {
   }
   res.json({
     success: true,
-    image_url: http://localhost:${port}/images/${req.file.filename},
+    image_url: `http://localhost:${port}/images/${req.file.filename}`,
     message: "File uploaded successfully",
   });
 });
@@ -81,6 +84,6 @@ app.listen(port, (error) => {
   if (error) {
     console.log(error);
   } else {
-    console.log(Server is running on port ${port});
+    console.log(`Server is running on port ${port}`);
   }
 });

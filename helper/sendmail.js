@@ -1,13 +1,12 @@
 const nodemailer = require("nodemailer");
-const config = require("../config.json");
 
 const sendMail = async (username, email, password, verificationLink) => {
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         service: "gmail",
         auth: {
-            user: config.email_user,
-            pass: config.email_password
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASSWORD
         }
     });
 
@@ -22,7 +21,7 @@ const sendMail = async (username, email, password, verificationLink) => {
     `;
 
     const message = {
-        from: config.email_user,
+        from: process.env.EMAIL_USER,
         to: email,
         subject: subject,
         html: html

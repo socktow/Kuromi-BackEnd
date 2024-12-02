@@ -1,5 +1,4 @@
 const nodemailer = require("nodemailer");
-const config = require("../config.json");
 
 const sendOrderConfirmationEmail = async (order) => {
     try {
@@ -7,8 +6,8 @@ const sendOrderConfirmationEmail = async (order) => {
             host: "smtp.gmail.com",
             service: "gmail",
             auth: {
-                user: config.email_user,
-                pass: config.email_password
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD
             }
         });
 
