@@ -7,13 +7,12 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 
-// Sử dụng biến môi trường
-const port = process.env.PORT || 4000;
-const mongoURI = process.env.MONGO_URI;
+// Environment Variables
+const PORT = process.env.PORT || 4000;
+const MONGO_URI = process.env.MONGO_URI;
 
-// Kết nối MongoDB
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
@@ -80,10 +79,10 @@ app.post("/upload", upload.single("product"), (req, res) => {
 });
 
 // Khởi động server
-app.listen(port, (error) => {
+app.listen(PORT, (error) => { 
   if (error) {
-    console.log(error);
+    console.error('Error starting server:', error);
   } else {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${PORT}`);
   }
 });
