@@ -78,22 +78,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 //   });
 // });
 
-app.use((req, res, next) => {
-  const originalSend = res.json;
-  res.json = function (data) {
-    if (Array.isArray(data)) {
-      data = data.map(item => {
-        if (item.image) {
-          item.image = item.image.replace("http://localhost:4000", "http://kiemhieptinhduyen.one");
-        }
-        return item;
-      });
-    } else if (data.image) {
-      data.image = data.image.replace("http://localhost:4000", "http://kiemhieptinhduyen.one");
-    }
-    originalSend.call(this, data);
-  };
-  next();
-});
 // Khởi động server
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
