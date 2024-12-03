@@ -56,7 +56,6 @@ router.post("/removeproduct", async (req, res) => {
   }
 });
 
-// Get all Products with optional search query
 router.get("/allproducts", async (req, res) => {
   const searchQuery = req.query.search;
   let products;
@@ -69,44 +68,70 @@ router.get("/allproducts", async (req, res) => {
     } else {
       products = await Product.find();
     }
-    res.json(products);
+
+    // Thay đổi URL của hình ảnh
+    const updatedProducts = products.map(product => ({
+      ...product._doc,
+      image: product.image.replace("http://localhost:4000", "https://kiemhieptinhduyen.one"),
+    }));
+
+    res.json(updatedProducts);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Get Product by ID
+
 router.get("/allproducts/:id", async (req, res) => {
   const productId = req.params.id;
+
   try {
     const product = await Product.findOne({ id: productId });
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
     }
-    res.json(product);
+
+    // Thay đổi URL của hình ảnh
+    const updatedProduct = {
+      ...product._doc,
+      image: product.image.replace("http://localhost:4000", "https://kiemhieptinhduyen.one"),
+    };
+
+    res.json(updatedProduct);
   } catch (error) {
     console.error("Error retrieving product:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
 
-// Update Product by ID
 router.put("/allproducts/:id", async (req, res) => {
   const productId = req.params.id;
+
   try {
-    const updatedProduct = await Product.findOneAndUpdate(
-      { id: productId },
-      req.body,
-      { new: true }
-    );
-    if (!updatedProduct) {
+    // Lấy sản phẩm hiện tại
+    const product = await Product.findOne({ id: productId });
+    if (!product) {
       return res.status(404).json({ error: "Product not found" });
     }
+
+    // Nếu không gửi image, giữ nguyên URL hiện tại
+    const updatedData = {
+      ...req.body,
+      image: req.body.image || product.image,
+    };
+
+    const updatedProduct = await Product.findOneAndUpdate(
+      { id: productId },
+      updatedData,
+      { new: true }
+    );
+
     res.json(updatedProduct);
   } catch (error) {
     console.error("Error updating product:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
+
 
 module.exports = router;
