@@ -56,7 +56,7 @@ app.use('/', (req, res) => {
   });
 })
 // PUBLIC IMAGE 
-app.use(express.static(path.join(__dirname, 'public/images')));
+app.use(express.static(path.join(__dirname, 'public')));
 // LOCAL IMAGE 
 // app.use("/images", express.static("upload/images"));
 // // Cấu hình multer
