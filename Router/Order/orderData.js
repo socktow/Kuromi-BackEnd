@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const OrderData = require('../../Schema/OrderDataSchema');
-const sendOrderConfirmationEmail = require('../../helper/sendOrderConfirmationEmail');
+// const sendOrderConfirmationEmail = require('../../helper/sendOrderConfirmationEmail');
 
 router.get('/', async (req, res) => {
   try {
@@ -88,7 +88,7 @@ router.post('/', async (req, res) => {
       status,
     });
     const savedOrder = await newOrder.save();
-    await sendOrderConfirmationEmail(savedOrder);
+    // await sendOrderConfirmationEmail(savedOrder);
     res.status(201).json(savedOrder);
   } catch (error) {
     console.error('Error creating order:', error);
