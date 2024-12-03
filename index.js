@@ -49,12 +49,7 @@ app.use('/api', VoucherRouter);
 app.use('/momo', momoPaymentRouter);
 app.use('/zalo', ZalopaymentRouter);
 app.use('/verify-email', verifyEmailRouter);
-app.use('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Server is running",
-  });
-})
+
 // PUBLIC IMAGE 
 // app.use(express.static(path.join(__dirname, 'public')));
 // LOCAL IMAGE 
