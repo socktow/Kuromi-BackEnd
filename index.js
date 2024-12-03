@@ -51,7 +51,7 @@ app.use('/zalo', ZalopaymentRouter);
 app.use('/verify-email', verifyEmailRouter);
 
 // PUBLIC IMAGE 
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 // LOCAL IMAGE 
 // app.use("/images", express.static("upload/images"));
 // // Cấu hình multer
