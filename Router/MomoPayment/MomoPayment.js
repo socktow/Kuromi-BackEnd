@@ -98,7 +98,7 @@ router.post('/callback', async (req, res) => {
   } else {
     console.log('Thanh toán thất bại với mã lỗi: ', req.body.resultCode);
   }
-  return res.redirect(`http://localhost:3000/testpayment?resultCode=${req.body.resultCode}`);
+  return res.redirect(`http://https://kuromi-shop.vercel.app/testpayment?resultCode=${req.body.resultCode}`);
 });
 
 // Check status transaction endpoint

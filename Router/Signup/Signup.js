@@ -27,7 +27,7 @@ router.post("/", async (req, res) => {
       emailVerificationToken: emailVerificationToken,
     });
     await newUser.save();
-    const verificationLink = `http://localhost:3000/email-verify?token=${emailVerificationToken}`;
+    const verificationLink = `http://https://kuromi-shop.vercel.app/email-verify?token=${emailVerificationToken}`;
     await sendMail(req.body.username, req.body.email, req.body.password, verificationLink);
     console.log("Email sent successfully!");
     const tokenData = {
